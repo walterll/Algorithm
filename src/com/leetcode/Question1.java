@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class Question1 {
 	/*****************
-	 * 第一版，只能解决nums大于零的情况
+	 * 第一版，只能解决nums大于零的情况 
 	 * @param nums
 	 * @param target
 	 * @return

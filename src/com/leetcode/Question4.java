@@ -62,7 +62,7 @@ public class Question4 {
 	private double findMedian(int[] nums1, int[] nums2, int midIndice, 
 								int num1Indice, int num2Indice) {
 		if (???)
-			return ???;
+			return ??? ;
 		if (nums1[num1Indice] > nums2[num2Indice])
 			findMedian(nums1, nums2, midIndice, num1Indice, (nums2.length - num2Indice) / 2);
 	}
