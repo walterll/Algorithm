@@ -46,19 +46,25 @@ public class KdTree {
 	private Node insert(Node node, Point2D p, boolean isVertical) {
 		if (node == null)
 			return new Node(p, isVertical, 1);
-		if (!node.vertical) {
-			if (node.point.x() > p.x())
-				node.left = insert(node.left, p, true);
-			else node.right = insert(node.right, p, true);
-		} else if (node.point.y() > p.y())
-					node.left = insert(node.left, p, false);
-				else node.right = insert(node.right, p, false);
+		//得65分的版本没有这个判断，插入已经存在的点会出错
+		if ((node.point.x() != p.x()) || (node.point.y() != p.y())) {
+			if (!node.vertical) {
+				if (node.point.x() > p.x())
+					node.left = insert(node.left, p, true);
+				else node.right = insert(node.right, p, true);
+			} else if (node.point.y() > p.y())
+						node.left = insert(node.left, p, false);
+					else node.right = insert(node.right, p, false);
+		} 
 		node.N = size(node.left) + size(node.right) + 1;
 		return node;
 	}
 	private boolean contains(Node node, Point2D p) {
 		if (node == null)
 			return false;
+		//68分版本没有以下判断，永远无法查找成功
+		if ((node.point.x() == p.x()) && (node.point.y() == p.y())) 
+			return true;
 		if (!node.vertical) {
 			if (node.point.x() > p.x())
 				return contains(node.left, p);
@@ -148,9 +154,10 @@ public class KdTree {
 		ps.insert(p4);
 		ps.insert(p5);
 		ps.insert(p6);
-//		RectHV r1 = new RectHV(0.1, 0.1, 0.6, 0.6);
-		System.out.println(ps.nearest(new Point2D(0.8, 0.4)));
-//		System.out.println(ps.range(r1));
+		RectHV r1 = new RectHV(0.1, 0.1, 0.6, 0.6);
+//		System.out.println(ps.nearest(new Point2D(0.8, 0.4)));
+		System.out.println(ps.range(r1));
 //		System.out.println(ps.contains(new Point2D(5,1)));
+//		System.out.println(ps.contains(new Point2D(0.7, 0.4)));
 	}
 }
