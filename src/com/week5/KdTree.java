@@ -92,18 +92,21 @@ public class KdTree {
 	private Iterable<Point2D> range(Node node, RectHV rect, RectHV localRect, List<Point2D> it) {
 		if (node == null)
 			return it;
+		//75分版本没有这句无法添加点
+		if (rect.contains(node.point))
+			it.add(node.point);
 		if (!node.vertical) {
 			if (localRect.intersects(rect)) {
 				it = (List<Point2D>) range(node.left, rect, new RectHV(localRect.xmin(), localRect.ymin(),
 							node.point.x(), localRect.ymax()),it);
-				it.addAll((Collection<? extends Point2D>) range(node.right, rect, new RectHV(node.point.x(), localRect.ymin(),
-						localRect.xmax(), localRect.ymax()),it));
+				range(node.right, rect, new RectHV(node.point.x(), localRect.ymin(),
+						localRect.xmax(), localRect.ymax()),it);
 			}
 		} else if (localRect.intersects(rect)) {
 				it = (List<Point2D>) range(node.left, rect, new RectHV(localRect.xmin(), localRect.ymin(),
 					localRect.xmax(), node.point.y()),it);
-				it.addAll((Collection<? extends Point2D>) range(node.right, rect, new RectHV(localRect.xmin(), node.point.y(),
-				localRect.xmax(), localRect.ymax()),it));
+				range(node.right, rect, new RectHV(localRect.xmin(), node.point.y(),
+				localRect.xmax(), localRect.ymax()),it);
 		
 		}
 		return it;
@@ -154,7 +157,7 @@ public class KdTree {
 		ps.insert(p4);
 		ps.insert(p5);
 		ps.insert(p6);
-		RectHV r1 = new RectHV(0.1, 0.1, 0.6, 0.6);
+		RectHV r1 = new RectHV(0.1, 0.3, 0.4, 0.6);
 //		System.out.println(ps.nearest(new Point2D(0.8, 0.4)));
 		System.out.println(ps.range(r1));
 //		System.out.println(ps.contains(new Point2D(5,1)));
